@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statflix</title>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css" />
@@ -17,23 +13,23 @@
 </head>
 
 <body>
-    <!--top hero section-->
+    <!--top hero sectionr-->
     <section class="hero is-dark is-small">
         <div class="hero-body">
             <div class="container">
                 <div class="title-wrapper">
                     <i class="fas fa-film fa-3x"></i>
                     <h1 class="title main-title">Statflix</h1>
+
                 </div>
             </div>
         </div>
     </section>
 
-    <!--main movie and details columns [left] [right]-->
+    <!--main movie and detail columns-->
     <div class="content-wrapper">
         <div class="container">
             <div class="columns">
-
                 <div class="column">
                     <div id="left-autocomplete"></div>
                     <div id="left-summary"></div>
@@ -47,13 +43,14 @@
 
             <!--instructions for user-->
             <div class="column notification tutorial">
-                <p class="title"></p>
-                <p class="subtitle"></p>
+                <p class="title">Search For Two Movies</p>
+                <p class="subtitle">And view the stats!</p>
             </div>
         </div>
     </div>
+
+    <script src="/src/main.js" type="module"></script>
+
 </body>
-<!--load debounce first-->
-<script src="utils.js"></script>
 
 </html>
