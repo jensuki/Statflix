@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statflix</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Ranga:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!--top hero section-->
+    <section class="hero is-dark is-small">
+        <div class="hero-body">
+            <div class="container">
+                <div class="title-wrapper">
+                    <i class="fas fa-film fa-3x"></i>
+                    <h1 class="title main-title">Statflix</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--main movie and details columns [left] [right]-->
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="columns">
+
+                <div class="column">
+                    <div id="left-autocomplete"></div>
+                    <div id="left-summary"></div>
+                </div>
+
+                <div class="column">
+                    <div id="right-autocomplete"></div>
+                    <div id="right-summary"></div>
+                </div>
+            </div>
+
+            <!--instructions for user-->
+            <div class="column notification tutorial">
+                <p class="title"></p>
+                <p class="subtitle"></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
