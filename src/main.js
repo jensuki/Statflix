@@ -28,7 +28,7 @@ const autoCompleteConfig = {
 
   // fetch movie data from api (based on searchTerm)
   async fetchData(searchTerm) {
-    const response = await axios.get('http://omdbapi.com/', {
+    const response = await axios.get('https://omdbapi.com/', {
       params: {
         apikey: import.meta.env.VITE_OMDB_API_KEY,
         s: searchTerm
@@ -59,5 +59,28 @@ createAutoComplete({
   }
 });
 
+// render template html for selected movie (takes all movieDetail as input)
+const movieTemplate = (movieDetail) => {
 
+  // convert text values -> numerical data for comparison
+  const dollars = movieDetail.BoxOffice
+    ? parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replae(/,/g, ''))
+    : 0;
+  const metascore = parseInt(movieDetail.Metascore) || 0;
+  const imdbRating = parseFloat(movieDetail.imdbRating) || 0;
+  const imdbVotes = parseInt(movieDetail.imdbVotes.replace(/,/g, '')) || 0;
+
+  // calculate total awards won
+  // if current value != number, just return the current total
+  const awards = movieDetail.Awards
+    ? movieDetail.Awards.split(' ').reduce((total, word) => {
+      const value = parseInt(word);
+      return isNaN(value) ? total : total + value;
+    }, 0)
+    : 0;
+}
+
+return `
+
+`;
 
