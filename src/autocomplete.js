@@ -1,3 +1,5 @@
+import debounce from './utils.js';
+
 // reusable autocomplete function
 
 // will accept a 'config object' with custom functions to control the autocomplete behavior
@@ -22,7 +24,7 @@ const createAutoComplete = ({
 
     // grab necessary elements from inside root
     const input = root.querySelector('input');
-    const dropdown = root.querySelector('dropdown');
+    const dropdown = root.querySelector('.dropdown');
     const resultsWrapper = root.querySelector('.results');
 
     // handle user input event
@@ -50,7 +52,7 @@ const createAutoComplete = ({
 
             // handle click of selected item
             option.addEventListener('click', () => {
-                dropdown.classList.add('is-active');
+                dropdown.classList.remove('is-active');
 
                 // set input value based on selection
                 input.value = inputValue(item);
@@ -70,7 +72,9 @@ const createAutoComplete = ({
     // close dropdown upon outside click
     document.addEventListener('click', event => {
         if (!root.contains(event.target)) {
-            dropdown.classList.remve('is-active');
+            dropdown.classList.remove('is-active');
         };
     });
 };
+
+export default createAutoComplete;

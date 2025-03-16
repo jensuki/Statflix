@@ -18,7 +18,9 @@ const debounce = (func, delay) => {
         // set a new timeout to invoke func() after specified delay
         timeoutId = setTimeout(() => {
             // execute func with original args
-            func.apply(null, args)
+            func.apply(null, args);
         }, delay)
-    }
-}
+    };
+};
+
+export default debounce;
