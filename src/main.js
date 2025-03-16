@@ -48,8 +48,9 @@ const movieTemplate = (movieDetail) => {
 
   // convert text values -> numerical data for comparison
   const dollars = movieDetail.BoxOffice
-    ? parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, ''))
-    : 0;
+    ? `$${parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, '')).toLocaleString()}`
+    : 'N/A';
+
   const metascore = parseInt(movieDetail.Metascore) || 0;
   const imdbRating = parseFloat(movieDetail.imdbRating) || 0;
   const imdbVotes = parseInt(movieDetail.imdbVotes.replace(/,/g, '')) || 0;
@@ -85,7 +86,7 @@ const movieTemplate = (movieDetail) => {
     </article>
 
     <article data-value="${dollars}" class="notification is-primary is-rounded">
-      <h4 class="title is-4">${movieDetail.BoxOffice}</h4>
+      <h4 class="title is-4">${dollars}</h4>
       <p class="subtitle">Box Office</p>
     </article>
 
