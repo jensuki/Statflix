@@ -151,8 +151,8 @@ const runComparison = () => {
     const rightStat = rightSideStats[index];
 
     // use dataset.value for data-value attributes
-    const leftValue = parseFloat(leftStat.dataset.value);
-    const rightValue = parseFloat(rightStat.dataset.value);
+    const leftValue = parseInt(leftStat.dataset.value);
+    const rightValue = parseInt(rightStat.dataset.value);
 
     // style lower-ranked stat in yellow
     if (rightValue > leftValue) {
