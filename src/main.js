@@ -47,9 +47,10 @@ const autoCompleteConfig = {
 const movieTemplate = (movieDetail) => {
 
   // convert text values -> numerical data for comparison
-  const dollars = movieDetail.BoxOffice
+  const dollars = movieDetail.BoxOffice && movieDetail.BoxOffice !== "N/A"
     ? `$${parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, '')).toLocaleString()}`
     : 'N/A';
+
 
   const metascore = parseInt(movieDetail.Metascore) || 0;
   const imdbRating = parseFloat(movieDetail.imdbRating) || 0;
