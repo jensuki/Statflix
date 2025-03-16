@@ -25,7 +25,7 @@ const createAutoComplete = ({
     const dropdown = root.querySelector('dropdown');
     const resultsWrapper = root.querySelector('.results');
 
-    // attach debounce to input change
+    // handle user input event
     const onInput = async event => {
         // fetch data based on user input
         const items = await fetchData(event.target.value);
@@ -34,7 +34,7 @@ const createAutoComplete = ({
         if (!items.length) {
             dropdown.classList.remove('is-active');
             return;
-        }
+        };
 
         // clear previous search results before displaying new ones;
         resultsWrapper.innerHTML = '';
@@ -43,14 +43,12 @@ const createAutoComplete = ({
         // loop through each fetched item + create 'a' option in dropdown
         for (let item of items) {
             const option = document.createElement('a');
-
-            // add bulma dropdown item styling
             option.classList.add('dropdown-item');
 
             // call renderOption func from config to inject html for item
             option.innerHTML = renderOption(item);
 
-            // handle click of dropdown item selected
+            // handle click of selected item
             option.addEventListener('click', () => {
                 dropdown.classList.add('is-active');
 
@@ -58,7 +56,21 @@ const createAutoComplete = ({
                 input.value = inputValue(item);
 
                 // call onOptionSelect func from config to handle chosen item
+                onOptionSelect(item);
             });
-        }
-    }
-}
+
+            // append chosen option to results
+            resultsWrapper.appendChild(option);
+        };
+    };
+
+    // attach debounce
+    input.addEventListener('input', debounce(onInput, 500));
+
+    // close dropdown upon outside click
+    document.addEventListener('click', event => {
+        if (!root.contains(event.target)) {
+            dropdown.classList.remve('is-active');
+        };
+    });
+};
