@@ -39,25 +39,9 @@ const autoCompleteConfig = {
   }
 };
 
-// initialize left autocomplete
-createAutoComplete({
-  // grab the config object properties
-  ...autoCompleteConfig,
-  root: document.querySelector('#left-autocomplete'), // attach to left
-  onOptionSelect(movie) {
-    document.querySelector('.tutorial').classList.add('is-hidden');
-  }
-});
-
-// initialize right autocomplete
-createAutoComplete({
-  // grab the config object properties
-  ...autoCompleteConfig,
-  root: document.querySelector('#right-autocomplete'), // attach to right
-  onOptionSelect(movie) {
-    document.querySelector('.tutorial').classList.add('is-hidden');
-  }
-});
+///////////////////////////////////////
+/// movie detail template
+///////////////////////////////////////
 
 // render template html for selected movie (takes all movieDetail as input)
 const movieTemplate = (movieDetail) => {
@@ -95,30 +79,101 @@ const movieTemplate = (movieDetail) => {
       </div>
     </article>
 
-    <article class="notification is-primary is-rounded">
+    <article data-value="${awards}" class="notification is-primary is-rounded">
       <h4 class="title is-4">${movieDetail.Awards}</h4>
       <p class="subtitle">Awards</p>
     </article>
 
-    <article class="notification is-primary is-rounded">
+    <article data-value="${dollars}" class="notification is-primary is-rounded">
       <h4 class="title is-4">${movieDetail.BoxOffice}</h4>
       <p class="subtitle">Box Office</p>
     </article>
 
-    <article class="notification is-primary is-rounded">
+    <article data-value="${metascore}" class="notification is-primary is-rounded">
       <h4 class="title is-4">${movieDetail.Metascore}</h4>
       <p class="subtitle">Metascore</p>
     </article>
 
-    <article class="notification is-primary is-rounded">
+    <article data-value="${imdbRating}" class="notification is-primary is-rounded">
       <h4 class="title is-4">${movieDetail.imdbRating}</h4>
       <p class="subtitle">IMDB Rating</p>
     </article>
 
-    <article class="notification is-primary is-rounded">
+    <article data-value="${imdbVotes}" class="notification is-primary is-rounded">
       <h4 class="title is-4">${movieDetail.imdbVotes}</h4>
       <p class="subtitle">IMDB Votes</p>
     </article>
 `;
 
 };
+
+///////////////////////////////////////
+/// fetch movie details + compare
+///////////////////////////////////////
+
+
+// initialize left and right movies
+let leftMovie;
+let rightMovie;
+
+// fetch single movie details on select (based on imdbID)
+const onMovieSelect = async (movie, summaryArea, side) => {
+  const response = await axios.get('https://omdbapi.com/', {
+    params: {
+      apikey: import.meta.env.VITE_OMDB_API_KEY,
+      'i': movie.imdbId
+    }
+  });
+
+  // inject the fetched movie data into summary area
+  summaryArea.innerHTML = movieTemplate(response.data);
+
+  // store corresponding movie data for both sides
+  if (side === 'left') {
+    leftMovie = response.data;
+  } else {
+    rightMovie = response.data;
+  };
+
+  // run a comparison only when both movies have been selected
+  if (leftMovie && rightMovie) {
+    runComparison();
+  }
+};
+
+// func to run the comparison using the both sides stats
+const runComparison = () => {
+  const leftSideStats = document.querySelectorAll('#left-summary .notification');
+  const rightSideStats = document.querySelectorAll('#right-summary .notification');
+
+  // loop over left stats to compare corresponding values from right side
+  leftSideStats.forEach((leftStat, index) => {
+    const rightStat = rightSideStats[index];
+
+    // use dataset.value for data-value attributes
+    const leftValue = parseInt(leftStat.dataset.value);
+    const rightValue = parseInt(rightStat.dataset.value);
+  });
+
+  
+}
+
+// initialize left autocomplete
+createAutoComplete({
+  // grab the config object properties
+  ...autoCompleteConfig,
+  root: document.querySelector('#left-autocomplete'), // attach to left
+  onOptionSelect(movie) {
+    document.querySelector('.tutorial').classList.add('is-hidden');
+  }
+});
+
+// initialize right autocomplete
+createAutoComplete({
+  // grab the config object properties
+  ...autoCompleteConfig,
+  root: document.querySelector('#right-autocomplete'), // attach to right
+  onOptionSelect(movie) {
+    document.querySelector('.tutorial').classList.add('is-hidden');
+  }
+});
