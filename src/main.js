@@ -46,10 +46,13 @@ const autoCompleteConfig = {
 // render template html for selected movie (takes all movieDetail as input)
 const movieTemplate = (movieDetail) => {
 
-  // convert text values -> numerical data for comparison
+  // extract and clean box office values
   const dollars = movieDetail.BoxOffice && movieDetail.BoxOffice !== "N/A"
-    ? `$${parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, '')).toLocaleString()}`
-    : 'N/A';
+    ? parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, ''))
+    : 0; // default to 0 if missing or N/A
+
+  // format for display (add $ and commas if valid, else show N/A)
+  const formattedDollars = dollars ? `$${dollars.toLocaleString()}` : 'N/A';
 
 
   const metascore = parseInt(movieDetail.Metascore) || 0;
@@ -87,7 +90,7 @@ const movieTemplate = (movieDetail) => {
     </article>
 
     <article data-value="${dollars}" class="notification is-primary is-rounded">
-      <h4 class="title is-4">${dollars}</h4>
+      <h4 class="title is-4">${formattedDollars}</h4>
       <p class="subtitle">Box Office</p>
     </article>
 
