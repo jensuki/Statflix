@@ -48,7 +48,7 @@ const movieTemplate = (movieDetail) => {
 
   // convert text values -> numerical data for comparison
   const dollars = movieDetail.BoxOffice
-    ? parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replae(/,/g, ''))
+    ? parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, ''))
     : 0;
   const metascore = parseInt(movieDetail.Metascore) || 0;
   const imdbRating = parseFloat(movieDetail.imdbRating) || 0;
@@ -108,7 +108,7 @@ const movieTemplate = (movieDetail) => {
 };
 
 ///////////////////////////////////////
-/// fetch movie details + compare
+/// fetch movie details + run comparison
 ///////////////////////////////////////
 
 
@@ -121,10 +121,10 @@ const onMovieSelect = async (movie, summaryArea, side) => {
   const response = await axios.get('https://omdbapi.com/', {
     params: {
       apikey: import.meta.env.VITE_OMDB_API_KEY,
-      'i': movie.imdbId
+      'i': movie.imdbID
     }
   });
-
+  console.log(response.data)
   // inject the fetched movie data into summary area
   summaryArea.innerHTML = movieTemplate(response.data);
 
@@ -151,29 +151,36 @@ const runComparison = () => {
     const rightStat = rightSideStats[index];
 
     // use dataset.value for data-value attributes
-    const leftValue = parseInt(leftStat.dataset.value);
-    const rightValue = parseInt(rightStat.dataset.value);
-  });
+    const leftValue = parseFloat(leftStat.dataset.value);
+    const rightValue = parseFloat(rightStat.dataset.value);
 
-  
-}
+    // style lower-ranked stat in yellow
+    if (rightValue > leftValue) {
+      leftStat.classList.replace('is-primary', 'is-warning');
+    } else {
+      rightStat.classList.replace('is-primary', 'is-warning');
+    };
+  });
+};
 
 // initialize left autocomplete
 createAutoComplete({
-  // grab the config object properties
+  // use shared autocomplete configurations
   ...autoCompleteConfig,
-  root: document.querySelector('#left-autocomplete'), // attach to left
+  root: document.querySelector('#left-autocomplete'), // attach to left input
   onOptionSelect(movie) {
     document.querySelector('.tutorial').classList.add('is-hidden');
+    onMovieSelect(movie, document.querySelector('#left-summary'), 'left'); // fetch + display details in left
   }
 });
 
 // initialize right autocomplete
 createAutoComplete({
-  // grab the config object properties
+  // use shared autocomplete configurations
   ...autoCompleteConfig,
-  root: document.querySelector('#right-autocomplete'), // attach to right
+  root: document.querySelector('#right-autocomplete'), // attach to right input
   onOptionSelect(movie) {
     document.querySelector('.tutorial').classList.add('is-hidden');
+    onMovieSelect(movie, document.querySelector('#right-summary'), 'right'); // fetch + display details in right
   }
 });
